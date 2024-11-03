@@ -32,8 +32,9 @@ SECRET_KEY = "django-insecure-n+9&r3)30dy)+^z#9+rq(6zofa5$#74ef=6m2erm5n3$jpdywz
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,20 +56,44 @@ INSTALLED_APPS = [
     'filer',
     'easy_thumbnails',
     'cms_app',
+    # 'djangocms_versioning',
+    
+    'djangocms_frontend',
+    'djangocms_frontend.contrib.accordion',
+    'djangocms_frontend.contrib.alert',
+    'djangocms_frontend.contrib.badge',
+    'djangocms_frontend.contrib.card',
+    'djangocms_frontend.contrib.carousel',
+    'djangocms_frontend.contrib.collapse',
+    'djangocms_frontend.contrib.content',
+    'djangocms_frontend.contrib.grid',
+    'djangocms_frontend.contrib.jumbotron',
+    'djangocms_frontend.contrib.link',
+    'djangocms_frontend.contrib.listgroup',
+    'djangocms_frontend.contrib.media',
+    'djangocms_frontend.contrib.icon',
+    'djangocms_frontend.contrib.image',
+    'djangocms_frontend.contrib.tabs',
+    'djangocms_frontend.contrib.utilities',
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "cms.middleware.toolbar.ToolbarMiddleware",
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
+    
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -92,6 +117,12 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.media',
+                'django.template.context_processors.csrf',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.i18n',
+                
+                'cms.context_processors.cms_settings',
                 'sekizai.context_processors.sekizai',
             ],
         },
@@ -166,13 +197,22 @@ LANGUAGES = [
 ]
 
 CMS_TEMPLATES = [
-    ('cms_app/home.html', 'Home Page Template'),
+    ('cms_app/minimal.html', 'Minimal Template'),
+    ('cms_app/bootstrap5.html', 'Bootstrap 5 Demo'),
     
 ]
 
 CMS_CONFIRM_VERSION4 = True
 CMS_PERMISSION = True
+DJANGOCMS_VERSIONING_ALLOW_DELETING_VERSIONS = True
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
+)
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
 )

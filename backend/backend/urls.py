@@ -28,6 +28,8 @@ if settings.DEBUG:
 urlpatterns += [
     path("admin/", admin.site.urls),
     path('test/', views.send_test_data),
-    path('cms/', include('cms.urls')), 
+    path('', include('cms.urls')), 
     
 ]
+
+admin.site.enable_nav_sidebar = False
