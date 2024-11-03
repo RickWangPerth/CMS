@@ -1,10 +1,15 @@
 #!/bin/sh
 # Wait for Postgres to be ready
-/wait-for-postgres.sh postgresdb
+/wait-for-postgres.sh db
+
+sleep 5
 
 # Perform database migration
-python manage.py makemigrations
-python manage.py migrate
+poetry run python manage.py makemigrations
+poetry run python manage.py migrate
+
+# Create superuser
+poetry run python create_superuser.py
 
 # Collect static files
 python manage.py collectstatic --noinput
