@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+# import environ
+
+# # Initialise environment variables
+# env = environ.Env()
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +37,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'djangocms_admin_style',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,7 +45,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'corsheaders',
-    'rest_framework', 
+    'rest_framework',
+    'django.contrib.sites',
+    # CMS apps
+    'cms',
+    'menus',
+    'treebeard',
+    'sekizai',
+    'filer',
+    'easy_thumbnails',
+    'cms_app',
 ]
 
 MIDDLEWARE = [
@@ -46,11 +62,13 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "cms.middleware.toolbar.ToolbarMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -74,6 +92,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -138,3 +157,22 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SITE_ID = 1
+
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('zh-hans', 'Simplified Chinese'),
+]
+
+CMS_TEMPLATES = [
+    ('cms_app/home.html', 'Home Page Template'),
+    
+]
+
+CMS_CONFIRM_VERSION4 = True
+CMS_PERMISSION = True
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
