@@ -29,6 +29,8 @@ urlpatterns += [
     path("admin/", admin.site.urls),
     path('test/', views.send_test_data),
     path('', include('cms.urls')), 
+    path('callback', views.cognito_callback, name='cognito_callback'),
+    path('logout', views.cognito_logout, name='cognito_logout'),
     
 ]
 
