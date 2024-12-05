@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
 
 # import environ
 
@@ -35,6 +36,15 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+COGNITO_DOMAIN = f"https://{config('COGNITO_REGION')}.auth.{config('COGNITO_REGION')}.amazoncognito.com"
+COGNITO_CALLBACK_URL = config('COGNITO_CALLBACK_URL')
+COGNITO_LOGOUT_URL = config('COGNITO_LOGOUT_URL')
+COGNITO_CLIENT_ID = config('COGNITO_CLIENT_ID')
+COGNITO_CLIENT_SECRET = config('COGNITO_CLIENT_SECRET')
+COGNITO_USER_POOL_ID = config('COGNITO_USER_POOL_ID')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -216,3 +226,7 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+CORS_ALLOW_ALL_ORIGINS = True
+
