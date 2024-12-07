@@ -38,7 +38,7 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
-COGNITO_DOMAIN = f"https://{config('COGNITO_REGION')}.auth.{config('COGNITO_REGION')}.amazoncognito.com"
+COGNITO_DOMAIN = f"https://{config('COGNITO_DOMAIN_PREFIX')}.auth.{config('COGNITO_REGION')}.amazoncognito.com"
 COGNITO_CALLBACK_URL = config('COGNITO_CALLBACK_URL')
 COGNITO_LOGOUT_URL = config('COGNITO_LOGOUT_URL')
 COGNITO_CLIENT_ID = config('COGNITO_CLIENT_ID')
@@ -104,7 +104,7 @@ MIDDLEWARE = [
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
-    
+    'backend.middleware.cognito.CognitoMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
