@@ -48,6 +48,8 @@ services:
       - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
       - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
       - DATABASE_HOST=db
+    env_file:
+      - .env
     ports:
       - '8000:8000'
     volumes:

@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
@@ -26,10 +26,16 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
     path('test/', views.send_test_data),
-    path('', include('cms.urls')), 
+    path('callback/', views.cognito_callback, name='cognito_callback'),
+    path('logout/', views.cognito_logout, name='cognito_logout'),
+    path('protected/', views.protected_route, name='protected_route'),
+    path('public/', views.public_route, name='public_route'),
+    path('login/', views.login, name='login'),
     
+    
+    path('', include('cms.urls')),
 ]
 
 admin.site.enable_nav_sidebar = False
